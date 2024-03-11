@@ -31,12 +31,6 @@ class ChessGame {
         else {
             var pos = this.convert_position(this.select.id)
             var pos_to = this.convert_position(cell.id)
-            console.log(pos)
-            console.log(pos_to)
-            console.log(this.board)
-            console.log(this.select)
-            console.log(this.board[pos_to[0]][pos_to[1]])
-            // console.log(this.is_valid_move(this.board[pos[0]][pos[1]][1], pos[0], pos[1], pos_to[0], pos_to[1]))
             if (this.is_valid_move(this.board[pos[0]][pos[1]][1], pos[0], pos[1], pos_to[0], pos_to[1])) {
                 this.move_piece(this.board[pos[0]][pos[1]][0], pos[0], pos[1], pos_to[0], pos_to[1])
             }
@@ -126,16 +120,12 @@ class ChessGame {
         }
         else if (base.id == 'h3' && this.board[start_row][start_col][3] == 1) {
             window.alert("Black Home!!")
-            // this.board[end_row][end_col - 1] = ['🏴', 'K', 'Black', 0]
-            // this.board[end_row][end_col] = ['🎯', 'C', 'Black', 0]
             document.getElementById(String.fromCharCode(`${7 - end_row + 'a'.charCodeAt()}`) + `${7 - end_col}`).textContent = ' ';
             document.getElementById('h3').textContent = '🎯'
             document.getElementById('h4').textContent = '🏳️'
         }
         else if (base.id == 'a3' && this.board[start_row][start_col][3] == 1) {
             window.alert("White Home!!")
-            // this.board[end_row][end_col - 1] = ['🏳️', 'k', 'White', 0]
-            // this.board[end_row][end_col] = ['🎯', 'c', 'White', 0]
             document.getElementById(String.fromCharCode(`${7 - end_row + 'a'.charCodeAt()}`) + `${7 - end_col}`).textContent = ' ';
             document.getElementById('a3').textContent = '🎯'
             document.getElementById('a4').textContent = '🏴'
