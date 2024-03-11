@@ -28,8 +28,7 @@ class ChessGame {
             this.select = cell
             cell.classList.add("selected");
         }
-        else
-        {
+        else {
             var pos = this.convert_position(this.select.id)
             var pos_to = this.convert_position(cell.id)
             console.log(pos)
@@ -47,7 +46,7 @@ class ChessGame {
             }
         }
     }
-    
+
     initialize_board() {
         this.board = Array.from({ length: 8 }, () => Array.from({ length: 8 }, () => null));
 
@@ -73,18 +72,16 @@ class ChessGame {
             let tr = document.createElement('tr');
             for (let col = 7; col >= 0; col--) {
                 let td = document.createElement('td');
-                if (this.board[row][col] === undefined) {   
+                if (this.board[row][col] === undefined) {
                     this.board[row][col] = [' ', ' ', ' ', 0]
                 }
                 let pieceSymbol = this.board[row][col] ? this.board[row][col][0] : ' ';
                 td.textContent = pieceSymbol;
-                if (this.board[row][col][3] == 2)
-                {
-                    td.style.backgroundColor = "white!important"
+                if (this.board[row][col][3] == 2) {
+                    td.style.color = "blue!important"
                 }
-                if (this.board[row][col][3] == 1)
-                {
-                    td.style.backgroundColor = "gray!important"
+                if (this.board[row][col][3] == 1) {
+                    td.style.color = "red!important"
                 }
                 td.id = `${String.fromCharCode(row + 'a'.charCodeAt())}` + `${col}`;
                 td.classList.add('start');
@@ -102,8 +99,7 @@ class ChessGame {
         }
     }
 
-    restore_spot(end_row, end_col)
-    {
+    restore_spot(end_row, end_col) {
         return String.fromCharCode(`${7 - end_row + 'a'.charCodeAt()}`) + `${7 - end_col}`;
     }
 
@@ -112,39 +108,42 @@ class ChessGame {
         console.log(String.fromCharCode(`${end_row + 'a'.charCodeAt()}`) + `${(7 + end_col) % 8}`);
         document.getElementById(String.fromCharCode(`${7 - end_row + 'a'.charCodeAt()}`) + `${7 - end_col}`).textContent = piece;
         var base = document.getElementById(String.fromCharCode(`${7 - end_row + 'a'.charCodeAt()}`) + `${7 - end_col}`)
-        if (this.board[end_row][end_col][1].toLowerCase() == 'c' && this.board[start_row][start_col][2] != this.board[end_row][end_col][2])
-        {
-            this.board[start_row][start_col][3] = (this.board[end_row][end_col][1] == "C") ? 2 : 1;
-        }
-        if (this.board[end_row][end_col][3] == 1 && this.board[start_row][start_col][2] != this.board[end_row][end_col][2])
-        {
-            this.board[start_row][start_col][3] = 2
-        }
-        if (this.board[end_row][end_col][3] == 2 && this.board[start_row][start_col][2] != this.board[end_row][end_col][2])
-        {
-            this.board[start_row][start_col][3] = 1
+        if (this.board[end_row][end_col][1].toLowerCase() == 'c') {
+            this.board[start_row][start_col][3] = (this.board[start_row][start_col][2] == this.board[end_row][end_col][2]) ? 1 : 2;
         }
         // [3] is 1 when own flag when being returned [3] is 2 when bringing back other teams
-        if (base.id == 'a3' && this.board[start_row][start_col][3] == 1 && this.board[start_row][start_col][2] == 'White')
-        {
+        if (base.id == 'a3' && this.board[start_row][start_col][3] == 2) {
             window.alert("White Wins!!")
+            document.getElementById("chessboard").innerHTML = ""
+            this.initialize_board();
+            this.print_board()
         }
-        else if (base.id == 'h3' && this.board[start_row][start_col][3] == 1 && this.board[start_row][start_col][2] == 'Black')
-        {
+        else if (base.id == 'h3' && this.board[start_row][start_col][3] == 2) {
             window.alert("Black Wins!!")
+            document.getElementById("chessboard").innerHTML = ""
+            this.initialize_board();
+            this.print_board()
         }
-        else if (base.id == 'h3' && this.board[start_row][start_col][3] == 2 && this.board[start_row][start_col][2] == 'Black')
-        {
+        else if (base.id == 'h3' && this.board[start_row][start_col][3] == 1) {
             window.alert("Black Home!!")
-            this.board[7][4] = ['🏴', 'K', 'Black', 0]
+            // this.board[end_row][end_col - 1] = ['🏴', 'K', 'Black', 0]
+            // this.board[end_row][end_col] = ['🎯', 'C', 'Black', 0]
+            document.getElementById(String.fromCharCode(`${7 - end_row + 'a'.charCodeAt()}`) + `${7 - end_col}`).textContent = ' ';
+            document.getElementById('h3').textContent = '🎯'
+            document.getElementById('h4').textContent = '🏳️'
         }
-        else if (base.id == 'a3' && this.board[start_row][start_col][3] == 2 && this.board[start_row][start_col][2] == 'White')
-        {
+        else if (base.id == 'a3' && this.board[start_row][start_col][3] == 1) {
             window.alert("White Home!!")
-            this.board[0][4] = ['🏳️', 'k', 'White', 0]
+            // this.board[end_row][end_col - 1] = ['🏳️', 'k', 'White', 0]
+            // this.board[end_row][end_col] = ['🎯', 'c', 'White', 0]
+            document.getElementById(String.fromCharCode(`${7 - end_row + 'a'.charCodeAt()}`) + `${7 - end_col}`).textContent = ' ';
+            document.getElementById('a3').textContent = '🎯'
+            document.getElementById('a4').textContent = '🏴'
         }
-        this.board[end_row][end_col] = this.board[start_row][start_col];
-        document.getElementById(this.select.id).textContent = ' ';
+        else {
+            this.board[end_row][end_col] = this.board[start_row][start_col];
+            document.getElementById(this.select.id).textContent = ' ';
+        }
         document.getElementById(this.select.id).classList.remove("selected");
         this.select = null
     }
@@ -156,9 +155,11 @@ class ChessGame {
     }
 
     is_valid_move(piece, start_row, start_col, end_row, end_col) {
+        if (piece.toLowerCase() == 'c' || piece.toLowerCase() == 'k')
+            return false;
         // Check for obstruction in the path
         this.piece = piece
-        if (this.piece === 'R' || this.piece === 'r' || this.piece === 'Q' || this.piece === 'q') {
+        if (this.piece === 'R' || this.piece === 'r') {
             if (start_row === end_row) { // Horizontal move
                 const delta_col = end_col > start_col ? 1 : -1;
                 for (let col = start_col + delta_col; col !== end_col; col += delta_col) {
@@ -166,6 +167,8 @@ class ChessGame {
                         this.board[start_row][col] = ['.', '.', '.'];
                     } else if (this.board[start_row][col][2] === this.board[start_row][start_col][2]) {
                         return false; // Obstruction found
+                    } else if (this.board[start_row][col][2] !== this.board[start_row][start_col][2]) {
+                        return true; // Obstruction found
                     } else if (end_col !== col && this.board[end_row][col][2] !== this.board[start_row][start_col][2]) {
                         return false; // Obstruction found
                     } else if (end_col === col && this.board[end_row][col][2] !== this.board[start_row][start_col][2]) {
@@ -180,7 +183,9 @@ class ChessGame {
                         this.board[row][start_col] = ['.', '.', '.'];
                     } else if (this.board[row][start_col][2] === this.board[start_row][start_col][2]) {
                         return false; // Obstruction found
-                    } else if (end_row !== row && this.board[row][start_col][2] !== this.board[start_row][start_col][2]) {
+                    } else if (this.board[row][start_col][2] !== this.board[start_row][start_col][2]) {
+                        return true; // Obstruction found
+                    } else if (end_row !== row && this.board[row][start_col][2] === this.board[start_row][start_col][2]) {
                         return false; // Obstruction found
                     } else if (end_row === row && this.board[row][start_col][2] !== this.board[start_row][start_col][2]) {
                         return true; // Obstruction found
@@ -188,9 +193,10 @@ class ChessGame {
                 }
                 return true;
             }
+            return true;
         }
 
-        if (this.piece === 'P' || this.piece === 'p' || this.piece === 'K' || this.piece === 'k') { // Pawn or King
+        if (this.piece === 'P' || this.piece === 'p') { // Pawn or King
             // Check for edge cases
             if ((start_row === 0 && end_row === 7 && start_col === end_col) ||
                 (start_row === 7 && end_row === 0 && start_col === end_col) ||
@@ -217,13 +223,13 @@ class ChessGame {
                 return false
         } else if (this.piece === 'P' || this.piece === 'p') { // Pawn
             // Pawn specific move validations
-            if (start_row === 1 && start_col === end_col && end_row - start_row === 2) {
+            if (start_row === 1 || start_row == 6 && start_col === end_col && Math.abs(end_row - start_row) === 2) {
                 return true;
             }
-            if (start_col === end_col && end_row - start_row === 1) {
+            if (start_col === end_col && Math.abs(end_row - start_row) === 1) {
                 return true;
             }
-            if (this.board[end_row][end_col] !== null && this.board[start_row][start_col][2] !== this.board[end_row][end_col][2] && Math.abs(start_col - end_col) === 1 && end_row - start_row === 1) {
+            if (this.board[end_row][end_col] !== null && this.board[start_row][start_col][2] !== this.board[end_row][end_col][2] && Math.abs(start_col - end_col) === 1 && Math.abs(end_row - start_row) === 1) {
                 return true;
             }
             return false;
@@ -233,18 +239,6 @@ class ChessGame {
         } else if (this.piece === 'B' || this.piece === 'b') { // Bishop
             // Bishop moves diagonally
             return Math.abs(end_row - start_row) === Math.abs(end_col - start_col);
-        } else if (this.piece === 'Q' || this.piece === 'q') { // Queen
-            // Queen combines rook and bishop moves
-            return (start_row === end_row || start_col === end_col) || (Math.abs(end_row - start_row) === Math.abs(end_col - start_col));
-        } else if (this.piece === 'K' || this.piece === 'k') { // King
-            // King moves one square in any direction
-            const str_temp = String.fromCharCode(end_col + 'a'.charCodeAt(0)) + end_row;
-            if (this.board[end_row][end_col][2] === 'White') {
-                this.flags[0][0] = str_temp;
-            } else if (this.board[end_row][end_col][2] === 'Black') {
-                this.flags[1][0] = str_temp;
-            }
-            return Math.abs(end_row - start_row) <= 1 && Math.abs(end_col - start_col) <= 1;
         } else {
             return false; // Default: invalid move
         }
