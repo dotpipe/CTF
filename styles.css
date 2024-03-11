@@ -1,36 +1,40 @@
 .selected {
-    width: 20px;
-    height: 20px;
+    width: 60px;
+    height: 60px;
     border:2px solid blue !important;
     background-color: #f0d9b5;
 }
 
+body {
+    font-size: 300%;
+}
+
 td:nth-child(odd) {
-    width: 20px;
-    height: 20px;
+    width: 60px;
+    height: 60px;
     border:2px solid gray;
     background-color: #f0d9b5;
 }
 
 td:nth-child(even) {
-    width: 20px;
-    height: 20px;
+    width: 60px;
+    height: 60px;
     border:2px solid gray;
     background-color: #b58863;
 }
 
 tr:nth-of-type(even)
   td:nth-of-type(odd) {
-    width: 20px;
-    height: 20px;
+    width: 60px;
+    height: 60px;
     border:2px solid gray;
     background-color: #b58863;
 }
 
 tr:nth-of-type(even)
   td:nth-of-type(even) {
-    width: 20px;
-    height: 20px;
+    width: 60px;
+    height: 60px;
     border:2px solid gray;
     background-color: #f0d9b5;
   }

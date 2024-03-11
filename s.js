@@ -11,6 +11,7 @@ class ChessGame {
         const cells = document.querySelectorAll('#chessboard td');
         cells.forEach(cell => {
             cell.addEventListener('click', () => {
+
                 this.validate_move(cell)
             });
         });
@@ -18,18 +19,18 @@ class ChessGame {
 
     validate_move(cell) {
         const end = this.convert_position(cell.id);
-        if (this.select == cell.id) {
-            cell.classList.toggle("selected");
-            this.select = null
+        if (this.select == cell) {
+            cell.classList.remove("selected");
+            this.select = null;
+            return;
         }
         else if (this.select == null) {
-            this.select = cell.id
-            cell.classList.toggle("selected");
+            this.select = cell
+            cell.classList.add("selected");
         }
-        else if (this.select != null) {
-            const std = document.getElementById(this.select);
-            this.piece = std.textContent;
-            var pos = this.convert_position(std.id)
+        else
+        {
+            var pos = this.convert_position(this.select.id)
             var pos_to = this.convert_position(cell.id)
             console.log(pos)
             console.log(pos_to)
@@ -38,21 +39,29 @@ class ChessGame {
             console.log(this.board[pos_to[0]][pos_to[1]])
             // console.log(this.is_valid_move(this.board[pos[0]][pos[1]][1], pos[0], pos[1], pos_to[0], pos_to[1]))
             if (this.is_valid_move(this.board[pos[0]][pos[1]][1], pos[0], pos[1], pos_to[0], pos_to[1])) {
-                this.move_piece(this.piece, pos[0], pos[1], pos_to[0], pos_to[1])
+                this.move_piece(this.board[pos[0]][pos[1]][0], pos[0], pos[1], pos_to[0], pos_to[1])
             }
-            document.getElementById(this.select).classList.toggle("selected");
-            this.select = null;
+            else {
+                document.getElementById(this.select.id).classList.remove("selected");
+                this.select = null
+            }
         }
     }
     
     initialize_board() {
         this.board = Array.from({ length: 8 }, () => Array.from({ length: 8 }, () => null));
 
-        this.board[7] = [['♖', 'R', 'Black', 0], ['♘', 'N', 'Black', 0], ['♗', 'B', 'Black', 0], ['🎯', 'C', 'Black', 0], ['🏴', 'K', 'Black', 0], ['♗', 'B', 'Black', 0], ['♘', 'N', 'Black', 0], ['♖', 'R', 'Black', 0]];
-        this.board[6] = [['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0]];
+        this.board[0] = [['♖', 'R', 'Black', 0], ['♘', 'N', 'Black', 0], ['♗', 'B', 'Black', 0], ['🎯', 'C', 'Black', 0], ['🏴', 'K', 'Black', 0], ['♗', 'B', 'Black', 0], ['♘', 'N', 'Black', 0], ['♖', 'R', 'Black', 0]];
+        this.board[1] = [['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0]];
 
-        this.board[0] = [['♜', 'r', 'White', 0], ['♞', 'n', 'White', 0], ['♝', 'b', 'White', 0], ['🎯', 'c', 'White', 0], ['🏳️', 'k', 'White', 0], ['♝', 'b', 'White', 0], ['♞', 'n', 'White', 0], ['♜', 'r', 'White', 0]];
-        this.board[1] = [['♟', 'p', 'White', 0], ['♟', 'p', 'White', 0], ['♟', 'p', 'White', 0], ['♟', 'p', 'White', 0], ['♟', 'p', 'White', 0], ['♟', 'p', 'White', 0], ['♟', 'p', 'White', 0], ['♟', 'p', 'White', 0]];
+        this.board[5] = [[' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0]];
+        this.board[4] = [[' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0]];
+        this.board[3] = [[' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0]];
+        this.board[2] = [[' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0]];
+
+
+        this.board[7] = [['♜', 'r', 'White', 0], ['♞', 'n', 'White', 0], ['♝', 'b', 'White', 0], ['🎯', 'c', 'White', 0], ['🏳️', 'k', 'White', 0], ['♝', 'b', 'White', 0], ['♞', 'n', 'White', 0], ['♜', 'r', 'White', 0]];
+        this.board[6] = [['♟', 'p', 'White', 0], ['♟', 'p', 'White', 0], ['♟', 'p', 'White', 0], ['♟', 'p', 'White', 0], ['♟', 'p', 'White', 0], ['♟', 'p', 'White', 0], ['♟', 'p', 'White', 0], ['♟', 'p', 'White', 0]];
 
     }
 
@@ -64,11 +73,19 @@ class ChessGame {
             let tr = document.createElement('tr');
             for (let col = 7; col >= 0; col--) {
                 let td = document.createElement('td');
-                if (this.board[row][col] === undefined) {
-                    this.board[row][col] = ['.', '.', '.', 0]
+                if (this.board[row][col] === undefined) {   
+                    this.board[row][col] = [' ', ' ', ' ', 0]
                 }
                 let pieceSymbol = this.board[row][col] ? this.board[row][col][0] : ' ';
                 td.textContent = pieceSymbol;
+                if (this.board[row][col][3] == 2)
+                {
+                    td.style.backgroundColor = "white!important"
+                }
+                if (this.board[row][col][3] == 1)
+                {
+                    td.style.backgroundColor = "gray!important"
+                }
                 td.id = `${String.fromCharCode(row + 'a'.charCodeAt())}` + `${col}`;
                 td.classList.add('start');
                 tr.appendChild(td);
@@ -85,11 +102,51 @@ class ChessGame {
         }
     }
 
+    restore_spot(end_row, end_col)
+    {
+        return String.fromCharCode(`${7 - end_row + 'a'.charCodeAt()}`) + `${7 - end_col}`;
+    }
+
     move_piece(piece, start_row, start_col, end_row, end_col) {
         console.log(end_row);
         console.log(String.fromCharCode(`${end_row + 'a'.charCodeAt()}`) + `${(7 + end_col) % 8}`);
         document.getElementById(String.fromCharCode(`${7 - end_row + 'a'.charCodeAt()}`) + `${7 - end_col}`).textContent = piece;
-        document.getElementById(this.select).textContent = ' ';
+        var base = document.getElementById(String.fromCharCode(`${7 - end_row + 'a'.charCodeAt()}`) + `${7 - end_col}`)
+        if (this.board[end_row][end_col][1].toLowerCase() == 'c' && this.board[start_row][start_col][2] != this.board[end_row][end_col][2])
+        {
+            this.board[start_row][start_col][3] = (this.board[end_row][end_col][1] == "C") ? 2 : 1;
+        }
+        if (this.board[end_row][end_col][3] == 1 && this.board[start_row][start_col][2] != this.board[end_row][end_col][2])
+        {
+            this.board[start_row][start_col][3] = 2
+        }
+        if (this.board[end_row][end_col][3] == 2 && this.board[start_row][start_col][2] != this.board[end_row][end_col][2])
+        {
+            this.board[start_row][start_col][3] = 1
+        }
+        // [3] is 1 when own flag when being returned [3] is 2 when bringing back other teams
+        if (base.id == 'a3' && this.board[start_row][start_col][3] == 1 && this.board[start_row][start_col][2] == 'White')
+        {
+            window.alert("White Wins!!")
+        }
+        else if (base.id == 'h3' && this.board[start_row][start_col][3] == 1 && this.board[start_row][start_col][2] == 'Black')
+        {
+            window.alert("Black Wins!!")
+        }
+        else if (base.id == 'h3' && this.board[start_row][start_col][3] == 2 && this.board[start_row][start_col][2] == 'Black')
+        {
+            window.alert("Black Home!!")
+            this.board[7][4] = ['🏴', 'K', 'Black', 0]
+        }
+        else if (base.id == 'a3' && this.board[start_row][start_col][3] == 2 && this.board[start_row][start_col][2] == 'White')
+        {
+            window.alert("White Home!!")
+            this.board[0][4] = ['🏳️', 'k', 'White', 0]
+        }
+        this.board[end_row][end_col] = this.board[start_row][start_col];
+        document.getElementById(this.select.id).textContent = ' ';
+        document.getElementById(this.select.id).classList.remove("selected");
+        this.select = null
     }
 
     convert_position(position) {
@@ -100,7 +157,8 @@ class ChessGame {
 
     is_valid_move(piece, start_row, start_col, end_row, end_col) {
         // Check for obstruction in the path
-        if (piece === 'R' || piece === 'r' || piece === 'Q' || piece === 'q') {
+        this.piece = piece
+        if (this.piece === 'R' || this.piece === 'r' || this.piece === 'Q' || this.piece === 'q') {
             if (start_row === end_row) { // Horizontal move
                 const delta_col = end_col > start_col ? 1 : -1;
                 for (let col = start_col + delta_col; col !== end_col; col += delta_col) {
@@ -132,8 +190,18 @@ class ChessGame {
             }
         }
 
+        if (this.piece === 'P' || this.piece === 'p' || this.piece === 'K' || this.piece === 'k') { // Pawn or King
+            // Check for edge cases
+            if ((start_row === 0 && end_row === 7 && start_col === end_col) ||
+                (start_row === 7 && end_row === 0 && start_col === end_col) ||
+                (start_col === 0 && end_col === 7 && start_row === end_row) ||
+                (start_col === 7 && end_col === 0 && start_row === end_row)) {
+                return false;
+            }
+        }
+
         // Other piece-specific move validations
-        if (piece === 'N' || piece === 'n') { // Knight
+        if (this.piece === 'N' || this.piece === 'n') { // Knight
             const delta_row = Math.abs(end_row - start_row);
             const delta_col = Math.abs(end_col - start_col);
             console.log("*" + delta_col + " " + delta_row)
@@ -147,15 +215,7 @@ class ChessGame {
                 return true
             else
                 return false
-        } else if (piece === 'P' || piece === 'p' || piece === 'K' || piece === 'k') { // Pawn or King
-            // Check for edge cases
-            if ((start_row === 0 && end_row === 7 && start_col === end_col) ||
-                (start_row === 7 && end_row === 0 && start_col === end_col) ||
-                (start_col === 0 && end_col === 7 && start_row === end_row) ||
-                (start_col === 7 && end_col === 0 && start_row === end_row)) {
-                return false;
-            }
-        } else if (piece === 'P' || piece === 'p') { // Pawn
+        } else if (this.piece === 'P' || this.piece === 'p') { // Pawn
             // Pawn specific move validations
             if (start_row === 1 && start_col === end_col && end_row - start_row === 2) {
                 return true;
@@ -167,16 +227,16 @@ class ChessGame {
                 return true;
             }
             return false;
-        } else if (piece === 'R' || piece === 'r') { // Rook
+        } else if (this.piece === 'R' || this.piece === 'r') { // Rook
             // Rook moves horizontally or vertically
             return start_row === end_row || start_col === end_col;
-        } else if (piece === 'B' || piece === 'b') { // Bishop
+        } else if (this.piece === 'B' || this.piece === 'b') { // Bishop
             // Bishop moves diagonally
             return Math.abs(end_row - start_row) === Math.abs(end_col - start_col);
-        } else if (piece === 'Q' || piece === 'q') { // Queen
+        } else if (this.piece === 'Q' || this.piece === 'q') { // Queen
             // Queen combines rook and bishop moves
             return (start_row === end_row || start_col === end_col) || (Math.abs(end_row - start_row) === Math.abs(end_col - start_col));
-        } else if (piece === 'K' || piece === 'k') { // King
+        } else if (this.piece === 'K' || this.piece === 'k') { // King
             // King moves one square in any direction
             const str_temp = String.fromCharCode(end_col + 'a'.charCodeAt(0)) + end_row;
             if (this.board[end_row][end_col][2] === 'White') {
@@ -200,7 +260,7 @@ class ChessGame {
             return false;
         }
 
-        if (piece === 'R' || piece === 'r' || piece === 'Q' || piece === 'q') { // Rook or Queen
+        if (this.piece === 'R' || this.piece === 'r' || this.piece === 'Q' || this.piece === 'q') { // Rook or Queen
             if (start_row === flags_row) { // Horizontal move
                 for (let i = 0; i < 8; i++) {
                     if (this.board[start_row][i] === null) {
@@ -228,7 +288,7 @@ class ChessGame {
             }
         }
 
-        if (piece === 'B' || piece === 'b' || piece === 'Q' || piece === 'q') { // Bishop or Queen
+        if (this.piece === 'B' || this.piece === 'b' || this.piece === 'Q' || this.piece === 'q') { // Bishop or Queen
             for (let i = 0; i < 8; i++) {
                 for (let j = 0; j < 8; j++) {
                     if (j === i) {
@@ -249,7 +309,7 @@ class ChessGame {
             }
         }
 
-        if (piece === 'N' || piece === 'n') { // Knight
+        if (this.piece === 'N' || this.piece === 'n') { // Knight
             for (let i = 0; i < 8; i++) {
                 for (let j = 0; j < 8; j++) {
                     const delta_row = Math.abs(i - start_row);
