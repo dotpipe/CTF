@@ -47,10 +47,10 @@ class ChessGame {
         this.board[0] = [['♖', 'R', 'Black', 0], ['♘', 'N', 'Black', 0], ['♗', 'B', 'Black', 0], ['🎯', 'C', 'Black', 0], ['🏴', 'K', 'Black', 0], ['♗', 'B', 'Black', 0], ['♘', 'N', 'Black', 0], ['♖', 'R', 'Black', 0]];
         this.board[1] = [['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0], ['♙', 'P', 'Black', 0]];
 
-        this.board[5] = [[' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0]];
-        this.board[4] = [[' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0]];
-        this.board[3] = [[' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0]];
-        this.board[2] = [[' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0], [' ', ' ', ' ', 0]];
+        this.board[5] = [[' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0]];
+        this.board[4] = [[' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0]];
+        this.board[3] = [[' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0]];
+        this.board[2] = [[' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0], [' ', '.', '.', 0]];
 
 
         this.board[7] = [['♜', 'r', 'White', 0], ['♞', 'n', 'White', 0], ['♝', 'b', 'White', 0], ['🎯', 'c', 'White', 0], ['🏳️', 'k', 'White', 0], ['♝', 'b', 'White', 0], ['♞', 'n', 'White', 0], ['♜', 'r', 'White', 0]];
@@ -67,7 +67,7 @@ class ChessGame {
             for (let col = 7; col >= 0; col--) {
                 let td = document.createElement('td');
                 if (this.board[row][col] === undefined) {
-                    this.board[row][col] = [' ', ' ', ' ', 0]
+                    this.board[row][col] = [' ', '.', '.', 0]
                 }
                 let pieceSymbol = this.board[row][col] ? this.board[row][col][0] : ' ';
                 td.textContent = pieceSymbol;
@@ -154,34 +154,22 @@ class ChessGame {
                 const delta_col = end_col > start_col ? 1 : -1;
                 for (let col = start_col + delta_col; col !== end_col; col += delta_col) {
                     if (this.board[start_row][col] === null) {
-                        this.board[start_row][col] = ['.', '.', '.'];
-                    } else if (this.board[start_row][col][2] === this.board[start_row][start_col][2]) {
+                        this.board[start_row][col] = [' ', '.', '.', 0];
+                    }
+                    if (this.board[start_row][col][1] !== '.') {
                         return false; // Obstruction found
-                    } else if (this.board[start_row][col][2] !== this.board[start_row][start_col][2]) {
-                        return true; // Obstruction found
-                    } else if (end_col !== col && this.board[end_row][col][2] !== this.board[start_row][start_col][2]) {
-                        return false; // Obstruction found
-                    } else if (end_col === col && this.board[end_row][col][2] !== this.board[start_row][start_col][2]) {
-                        return true; // Obstruction found
                     }
                 }
-                return true;
             } else if (start_col === end_col) { // Vertical move
                 const delta_row = end_row > start_row ? 1 : -1;
                 for (let row = start_row + delta_row; row !== end_row; row += delta_row) {
                     if (this.board[row][start_col] === null) {
-                        this.board[row][start_col] = ['.', '.', '.'];
-                    } else if (this.board[row][start_col][2] === this.board[start_row][start_col][2]) {
+                        this.board[row][start_col] = [' ', '.', '.', 0];
+                    } 
+                    if (this.board[row][start_col][1] !== '.') {
                         return false; // Obstruction found
-                    } else if (this.board[row][start_col][2] !== this.board[start_row][start_col][2]) {
-                        return true; // Obstruction found
-                    } else if (end_row !== row && this.board[row][start_col][2] === this.board[start_row][start_col][2]) {
-                        return false; // Obstruction found
-                    } else if (end_row === row && this.board[row][start_col][2] !== this.board[start_row][start_col][2]) {
-                        return true; // Obstruction found
                     }
                 }
-                return true;
             }
             return true;
         }
@@ -211,7 +199,8 @@ class ChessGame {
                 return true
             else
                 return false
-        } else if (this.piece === 'P' || this.piece === 'p') { // Pawn
+        }
+        if (this.piece === 'P' || this.piece === 'p') { // Pawn
             // Pawn specific move validations
             if (start_row === 1 || start_row == 6 && start_col === end_col && Math.abs(end_row - start_row) === 2) {
                 return true;
@@ -225,14 +214,13 @@ class ChessGame {
             return false;
         } else if (this.piece === 'R' || this.piece === 'r') { // Rook
             // Rook moves horizontally or vertically
-            return start_row === end_row || start_col === end_col;
+            return start_row == end_row || start_col == end_col;
         } else if (this.piece === 'B' || this.piece === 'b') { // Bishop
             // Bishop moves diagonally
             return Math.abs(end_row - start_row) === Math.abs(end_col - start_col);
         } else {
             return false; // Default: invalid move
         }
-        return true;
     }
 
     is_check(piece, start_row, start_col, flags_row, flags_col) {
@@ -244,7 +232,7 @@ class ChessGame {
             return false;
         }
 
-        if (this.piece === 'R' || this.piece === 'r' || this.piece === 'Q' || this.piece === 'q') { // Rook or Queen
+        if (this.piece === 'R' || this.piece === 'r') { // Rook or Queen
             if (start_row === flags_row) { // Horizontal move
                 for (let i = 0; i < 8; i++) {
                     if (this.board[start_row][i] === null) {
@@ -272,7 +260,7 @@ class ChessGame {
             }
         }
 
-        if (this.piece === 'B' || this.piece === 'b' || this.piece === 'Q' || this.piece === 'q') { // Bishop or Queen
+        if (this.piece === 'B' || this.piece === 'b') { // Bishop or Queen
             for (let i = 0; i < 8; i++) {
                 for (let j = 0; j < 8; j++) {
                     if (j === i) {
