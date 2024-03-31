@@ -9,13 +9,25 @@
 </head>
 
 <body>
+    <script src="irondocks.js"></script>
+    <pipe id="cnt" class="pipe plain-text" ajax="./counter.php" insert="counter"></pipe>
+
+    <!-- <div id="photo"><img src="chess.jpg"></div> -->
     <div class="chessboard" id="chessboard"></div>
-    <!-- <script src="script.js"></script> -->
+    <div id="counter"></div>
     <script src="s1.js"></script>
     <script>     // General
         const game = new ChessGame();
         let currentPlayer = 'White'; // Initialize current player
         let activePiece = null; // Track the active piece for movement
+        var counter = {
+            "tagname": "div",
+            "id": "c",
+            "ajax": "counter.php",
+            "insert": "counter",
+            "class": "pipe"
+        }
+        modala(game.board, document.body);//getElementById("counter"))
     </script>
 </body>
 

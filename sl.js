@@ -2,9 +2,7 @@ class ChessGame {
     constructor() {
         this.initialize_board();
         this.current_player = 'White';
-//        this.flags = [['a4', 'White', 0], ['h8', 'Black', 0]];
-//        this.base = [['a4', 'White', 0], ['h4', 'Black', 0]];
-	this.flags = [['e1', 'White', 0], ['e8', 'Black', 0]];
+        this.flags = [['e1', 'White', 0], ['e8', 'Black', 0]];
         this.base = [['d1', 'White', 0], ['d8', 'Black', 0]];
         this.piece = ' ';
         this.piece_id = ' ';
@@ -108,25 +106,25 @@ class ChessGame {
             this.board[start_row][start_col][3] = (this.board[start_row][start_col][2] == this.board[end_row][end_col][2]) ? 1 : 2;
         }
         // [3] is 1 when own flag when being returned [3] is 2 when bringing back other teams
-        if (this.board[start_row][start_col][2] == "White" && this.board[start_row][start_col][3] == 2) {
+        if (base.id == 'a3' && this.board[start_row][start_col][3] == 2) {
             window.alert("White Wins!!")
             document.getElementById("chessboard").innerHTML = ""
             this.initialize_board();
             this.print_board()
         }
-        else if (this.board[start_row][start_col][2] == "Black" && this.board[start_row][start_col][3] == 2) {
+        else if (base.id == 'h3' && this.board[start_row][start_col][3] == 2) {
             window.alert("Black Wins!!")
             document.getElementById("chessboard").innerHTML = ""
             this.initialize_board();
             this.print_board()
         }
-        else if (this.board[start_row][start_col][2] == "Black" && this.board[start_row][start_col][3] == 1) {
+        else if (base.id == 'h3' && this.board[start_row][start_col][3] == 1) {
             window.alert("Black Home!!")
             document.getElementById(String.fromCharCode(`${7 - end_row + 'a'.charCodeAt()}`) + `${7 - end_col}`).textContent = ' ';
             document.getElementById('h3').textContent = '🎯'
             document.getElementById('h4').textContent = '🏳️'
         }
-        else if (this.board[start_row][start_col][2] == "White" && this.board[start_row][start_col][3] == 1) {
+        else if (base.id == 'a3' && this.board[start_row][start_col][3] == 1) {
             window.alert("White Home!!")
             document.getElementById(String.fromCharCode(`${7 - end_row + 'a'.charCodeAt()}`) + `${7 - end_col}`).textContent = ' ';
             document.getElementById('a3').textContent = '🎯'
@@ -238,7 +236,7 @@ class ChessGame {
             if (start_row === flags_row) { // Horizontal move
                 for (let i = 0; i < 8; i++) {
                     if (this.board[start_row][i] === null) {
-                        this.board[start_row][i] = ['.', '.', '.'];
+                        this.board[start_row][i] = [' ', '.', '.', 0];
                     }
                     if (this.board[start_row][i][2] !== this.board[start_row][i][2] && this.board[start_row][i][1].toLowerCase() !== 'k') {
                         return false;
@@ -250,7 +248,7 @@ class ChessGame {
             } else if (start_col === flags_col) { // Vertical move
                 for (let i = 0; i < 8; i++) {
                     if (this.board[i][start_col] === null) {
-                        this.board[i][start_col] = ['.', '.', '.'];
+                        this.board[i][start_col] = [' ', '.', '.', 0];
                     }
                     if (this.board[i][start_col][2] !== this.board[start_row][start_col][2] && this.board[i][start_col][1].toLowerCase() !== 'k') {
                         return false;
@@ -267,7 +265,7 @@ class ChessGame {
                 for (let j = 0; j < 8; j++) {
                     if (j === i) {
                         if (this.board[i][j] === null) {
-                            this.board[i][j] = ['.', '.', '.'];
+                            this.board[i][j] = [' ', '.', '.', 0];
                         }
                         if (this.board[i][j][2] === this.board[start_row][start_col][2]) {
                             break;
@@ -290,7 +288,7 @@ class ChessGame {
                     const delta_col = Math.abs(j - start_col);
                     if ((delta_row === 1 && delta_col === 2) || (delta_row === 2 && delta_col === 1)) {
                         if (this.board[i][j] === null) {
-                            this.board[i][j] = ['.', '.', '.'];
+                            this.board[i][j] = [' ', '.', '.', 0];
                         }
                         if (this.board[i][j][2] !== this.board[start_row][start_col][2] && this.board[i][j][1].toLowerCase() === 'k') {
                             return true;
